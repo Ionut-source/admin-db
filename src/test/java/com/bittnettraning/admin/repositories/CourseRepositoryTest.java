@@ -9,7 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @DataJpaTest
@@ -20,14 +20,16 @@ class CourseRepositoryTest extends AbstractTest {
     private CourseRepository courseRepository;
 
     @Test
-    void testFindCoursesByCourseNameContains() {
+    void findCoursesByCourseNameContains() {
         List<Course> courses = courseRepository.findCoursesByCourseNameContains("Java");
         int expectedResult = 1;
         assertEquals(expectedResult, courses.size());
-
     }
 
     @Test
-    void testGetCoursesByStudentId() {
+    void getCoursesByStudentId() {
+        List<Course> courses = courseRepository.getCoursesByStudentId(1L);
+        int expectedResult = 1;
+        assertEquals(expectedResult, courses.size());
     }
 }
