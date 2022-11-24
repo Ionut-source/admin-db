@@ -13,7 +13,7 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
     @Autowired
     List<Course> findCoursesByCourseNameContains(String keyword);
 
-    @Query(value = "SELECT * FROM courses as c WHERE c.course_id IN (SELECT e.course_id FROM enrolled_in AS e WHERE e.student_id=:studentId", nativeQuery = true)
+    @Query(value = "SELECT * FROM courses as c WHERE c.course_id IN (SELECT e.course_id FROM enrolled_in AS e WHERE e.student_id=:studentId)", nativeQuery = true)
     List<Course> getCoursesByStudentId(@Param("studentId") Long studentId);
 
 }

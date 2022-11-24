@@ -15,7 +15,6 @@ public class AbstractTest {
         registry.add("spring.datasource.username", container::getUsername);
         registry.add("spring.datasource.password", container::getPassword);
     }
-
     @BeforeAll
     public static void setUp() {
         container.start();
