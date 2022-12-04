@@ -45,6 +45,13 @@ public class CourseController {
         model.addAttribute("listTrainers", trainers);
         return "course-views/formUpdate";
     }
+    @GetMapping(value = "/formCreate")
+    public String formCourses(Model model){
+        List<Trainer> trainers = trainerService.getTrainers();
+        model.addAttribute("listTrainers", trainers);
+        model.addAttribute("course", new Course());
+        return "course-views/formCreate";
+    }
     @PostMapping(value = "/save")
     public String save(Course course){
         courseService.createOrUpdateCourse(course);
