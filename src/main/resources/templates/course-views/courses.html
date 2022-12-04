@@ -20,7 +20,7 @@
                     <th>Course ID</th>
                     <th>Course Name</th>
                     <th>Course Duration</th>
-                    <th>Course DescriptionD</th>
+                    <th>Course Description</th>
                     <th>Trainer</th>
                     <th>Number OF Participants</th>
                 </tr>
@@ -33,6 +33,14 @@
                     <td th:text="${course.getCourseDescription()}"></td>
                     <td th:text="${course.getTrainer().getFirstName()}+' '+${course.getTrainer().getLastName()}"></td>
                     <td th:text="${course.getStudents().size()}"></td>
+                    <td>
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure?')"
+                           th:href="@{/courses/delete(courseId=${course.getCourseId()}, keyword=${keyword})}">Delete</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-success"
+                           th:href="@{/courses/formUpdate(courseId=${course.getCourseId()})}">Update</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
