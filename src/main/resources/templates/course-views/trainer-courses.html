@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="template"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Trainer Courses</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container mt-3">
+        <div class="card-header">
+            Hello, These are your courses :
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr class="text-center">
+                    <th>Course Id</th>
+                    <th>Course Name</th>
+                    <th>Course Duration</th>
+                    <th>Course Description</th>
+                    <th>Trainer</th>
+                    <th>Number Of Participants</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" th:each="course:${listCourses}">
+                    <td th:text="${course.getCourseId()}"></td>
+                    <td th:text="${course.getCourseName()}"></td>
+                    <td th:text="${course.getCourseDuration()}"></td>
+                    <td th:text="${course.getCourseDescription()}"></td>
+                    <td th:text="${course.getTrainer().getFirstName()}+' '+${course.getTrainer().getLastName()}"></td>
+                    <td th:text="${course.getStudents().size()}"></td>
+                    <td>
+                        <a class="btn btn-success" th:href="@{/courses/formUpdate(courseId=${course.getCourseId()})}">
+                            Update
+                        </a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

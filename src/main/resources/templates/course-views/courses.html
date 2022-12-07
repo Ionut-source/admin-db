@@ -1,49 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="template"
+      xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Courses</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <div class="card">
-        <div class="card-header">List of courses</div>
-        <div class="card-body">
-            <form method="get" th:action="@{index}">
-                <label>keyword</label>
-                <input type="text" name="keyword" th:value="${keyword}">
-                <button type="submit" class="btn btn-primary"> Search</button>
-            </form>
-            <table class="table">
-                <thead>
-                <tr class="text-center">
-                    <th>Course ID</th>
-                    <th>Course Name</th>
-                    <th>Course Duration</th>
-                    <th>Course Description</th>
-                    <th>Trainer</th>
-                    <th>Number OF Participants</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="text-center" th:each="course:${listCourses}">
-                    <td th:text="${course.getCourseId()}"></td>
-                    <td th:text="${course.getCourseName()}"></td>
-                    <td th:text="${course.getCourseDuration()}"></td>
-                    <td th:text="${course.getCourseDescription()}"></td>
-                    <td th:text="${course.getTrainer().getFirstName()}+' '+${course.getTrainer().getLastName()}"></td>
-                    <td th:text="${course.getStudents().size()}"></td>
-                    <td>
-                        <a class="btn btn-danger" onclick="return confirm('Are you sure?')"
-                           th:href="@{/courses/delete(courseId=${course.getCourseId()}, keyword=${keyword})}">Delete</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-success"
-                           th:href="@{/courses/formUpdate(courseId=${course.getCourseId()})}">Update</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<div layout:fragment="content1">
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-header">List of courses :</div>
+            <div class="card-body">
+                <form method="get" th:action="@{index}">
+                    <label>keyword</label>
+                    <input type="text" name="keyword" th:value="${keyword}">
+                    <button type="submit" class="btn btn-primary"> Search</button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr class="text-center">
+                        <th>Course Id</th>
+                        <th>Course Name</th>
+                        <th>Course Duration</th>
+                        <th>Course Description</th>
+                        <th>Trainer</th>
+                        <th>Number OF Participants</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-center" th:each="course:${listCourses}">
+                        <td th:text="${course.getCourseId()}"></td>
+                        <td th:text="${course.getCourseName()}"></td>
+                        <td th:text="${course.getCourseDuration()}"></td>
+                        <td th:text="${course.getCourseDescription()}"></td>
+                        <td th:text="${course.getTrainer().getFirstName()}+' '+${course.getTrainer().getLastName()}"></td>
+                        <td th:text="${course.getStudents().size()}"></td>
+                        <td>
+                            <a class="btn btn-danger" onclick="return confirm('Are you sure?')"
+                               th:href="@{/courses/delete(courseId=${course.getCourseId()}, keyword=${keyword})}">Delete</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-success"
+                               th:href="@{/courses/formUpdate(courseId=${course.getCourseId()})}">Update</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
