@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping(value = "/courses")
+@RequestMapping("/courses")
 public class CourseController {
 
     @Autowired
@@ -25,44 +25,44 @@ public class CourseController {
     @Autowired
     private TrainerService trainerService;
 
-    @GetMapping(value = "/index")
+    @GetMapping("/index")
     public String courses(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword) {
         List<Course> courses = courseService.findCoursesByCourseName(keyword);
         model.addAttribute("listCourses", courses);
         model.addAttribute("keyword", keyword);
-        return "templates/course-views/courses";
+        return "course-views/courses";
     }
 
-    @GetMapping(value = "/delete")
+    @GetMapping("/delete")
     public String deleteCourse(Long courseId, String keyword) {
         courseService.removeCourse(courseId);
         return "redirect:/courses/index?keyword=" + keyword;
     }
 
-    @GetMapping(value = "/formUpdate")
+    @GetMapping("/formUpdate")
     public String updateCourse(Model model, long courseId) {
         Course course = courseService.findCourseById(courseId);
         List<Trainer> trainers = trainerService.getTrainers();
         model.addAttribute("course", course);
         model.addAttribute("listTrainers", trainers);
-        return "templates/course-views/formUpdate";
+        return "course-views/formUpdate";
     }
 
-    @GetMapping(value = "/formCreate")
+    @GetMapping("/formCreate")
     public String formCourses(Model model) {
         List<Trainer> trainers = trainerService.getTrainers();
         model.addAttribute("listTrainers", trainers);
         model.addAttribute("course", new Course());
-        return "templates/course-views/formCreate";
+        return "course-views/formCreate";
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping("/save")
     public String save(Course course) {
         courseService.createOrUpdateCourse(course);
         return "redirect:/courses/index";
     }
 
-    @GetMapping(value = "/index/student")
+    @GetMapping("/index/student")
     public String coursesForCurrentStudent(Model model) {
         Long studentId = 1L;
         List<Course> subscribedCourses = courseService.getCoursesForStudent(studentId);
@@ -70,28 +70,28 @@ public class CourseController {
                 !subscribedCourses.contains(course)).collect(Collectors.toList());
         model.addAttribute("listCourses", subscribedCourses);
         model.addAttribute("otherCourses", otherCourses);
-        return "templates/course-views/student-courses";
+        return "course-views/student-courses";
     }
 
-    @GetMapping(value = "/enrollStudent")
+    @GetMapping("/enrollStudent")
     public String enrollCurrentStudentInCourse(Long courseId) {
         Long studentId = 1L;
         courseService.assignStudentToCourse(courseId, studentId);
         return "redirect:/courses/index/student";
     }
 
-    @GetMapping(value = "/index/trainer")
+    @GetMapping("/index/trainer")
     public String coursesForCurrentTrainer(Model model) {
         Long trainerId = 1L;
         Trainer trainer = trainerService.findTrainerById(trainerId);
         model.addAttribute("listCourses", trainer.getCourses());
-        return "templates/course-views/trainer-courses";
+        return "course-views/trainer-courses";
     }
 
-    @GetMapping(value = "/trainer")
+    @GetMapping("/trainer")
     public String coursesByTrainerId(Model model, Long trainerId) {
         Trainer trainer = trainerService.findTrainerById(trainerId);
         model.addAttribute("listCourses", trainer.getCourses());
-        return "templates/course-views/trainer-courses";
+        return "course-views/trainer-courses";
     }
 }

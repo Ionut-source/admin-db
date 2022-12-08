@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="template"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Trainers</title>
+</head>
+<body>
+<div layout:fragment="content1">
+  <div class="container mt-3">
+    <div class="card-header">List of Trainers</div>
+    <div class="card-body">
+      <form method="get" th:action="@{index}">
+        <label>keyword</label>
+        <input type="text" name="keyword" th:value="${keyword}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <table class="table mt-3">
+          <thead>
+          <tr class="text-center">
+            <th>Trainer Id</th>
+            <th>Trainer First Name</th>
+            <th>Trainer Last Name</th>
+            <th>Trainer Summary</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center" th:each="trainer:${listTrainers}">
+            <td th:text="${trainer.getTrainerId()}"></td>
+            <td th:text="${trainer.getFirstName()}"></td>
+            <td th:text="${trainer.getLastName()}"></td>
+            <td th:text="${trainer.getSummary()}"></td>
+          <td>
+            <a onclick="return confirm('Are you sure?')" class="btn btn-danger"
+               th:href="@{/trainers/delete(trainerId=${trainer.getTrainerId()}, keyword=${keyword})}">
+              Delete
+            </a>
+          </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

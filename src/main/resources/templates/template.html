@@ -12,10 +12,16 @@
         <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"></a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Courses</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{/courses/index}">Search</a></li>
                         <li><a class="dropdown-item" th:href="@{/courses/formCreate}">New Course</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Trainers</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/trainers/index}">Search</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="template"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Trainer</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-6 offset-3 mt-3">
+        <form class="form-control" method="post" th:action="@{/trainers/update}" th:object="${trainer}">
+            <div class="mb-3 mt-3">
+                <label class="form-label">Trainer Id:</label>
+                <input type="number" name="trainerId" class="form-control" th:value="${trainer.getTrainerId()}"
+                       readonly="readonly">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="firstName" class="form-label">First Name:</label>
+                <input id="firstName" type="text" name="firstName" class="form-control" th:value="${trainer.getFirstName()}">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="lastName" class="form-label">Last Name:</label>
+                <input id="lastName" type="text" name="lastName" class="form-control" th:value="${trainer.getLastName()}">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="summary" class="form-label">Summary:</label>
+                <input id="summary" type="text" name="summary" class="form-control" th:value="${trainer.getSummary()}">
+            </div>
+            <div class="mb-3 mt-3" th:each="course:${trainer.getCourses()}">
+                <input hidden name="courses" class="form-control" th:value="${trainer.courses[courseStat.index].getCourseId}">
+            </div>
+            <div class="mb-3 mt-3" hidden>
+                <input name="user" class="form-control" th:field="${trainer.user}">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
