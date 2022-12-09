@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bittnettraning.admin.constants.Admin.Constants.*;
+
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
@@ -26,10 +28,10 @@ public class CourseController {
     private TrainerService trainerService;
 
     @GetMapping("/index")
-    public String courses(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword) {
+    public String courses(Model model, @RequestParam(name = KEYWORD, defaultValue = "") String keyword) {
         List<Course> courses = courseService.findCoursesByCourseName(keyword);
-        model.addAttribute("listCourses", courses);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute(LIST_COURSES, courses);
+        model.addAttribute(KEYWORD, keyword);
         return "course-views/courses";
     }
 
@@ -43,16 +45,16 @@ public class CourseController {
     public String updateCourse(Model model, long courseId) {
         Course course = courseService.findCourseById(courseId);
         List<Trainer> trainers = trainerService.getTrainers();
-        model.addAttribute("course", course);
-        model.addAttribute("listTrainers", trainers);
+        model.addAttribute(COURSE, course);
+        model.addAttribute(LIST_TRAINERS, trainers);
         return "course-views/formUpdate";
     }
 
     @GetMapping("/formCreate")
     public String formCourses(Model model) {
         List<Trainer> trainers = trainerService.getTrainers();
-        model.addAttribute("listTrainers", trainers);
-        model.addAttribute("course", new Course());
+        model.addAttribute(LIST_TRAINERS, trainers);
+        model.addAttribute(COURSE, new Course());
         return "course-views/formCreate";
     }
 
@@ -68,8 +70,8 @@ public class CourseController {
         List<Course> subscribedCourses = courseService.getCoursesForStudent(studentId);
         List<Course> otherCourses = courseService.getAllCourses().stream().filter(course ->
                 !subscribedCourses.contains(course)).collect(Collectors.toList());
-        model.addAttribute("listCourses", subscribedCourses);
-        model.addAttribute("otherCourses", otherCourses);
+        model.addAttribute(LIST_COURSES, subscribedCourses);
+        model.addAttribute(OTHER_COURSES, otherCourses);
         return "course-views/student-courses";
     }
 
@@ -84,14 +86,14 @@ public class CourseController {
     public String coursesForCurrentTrainer(Model model) {
         Long trainerId = 1L;
         Trainer trainer = trainerService.findTrainerById(trainerId);
-        model.addAttribute("listCourses", trainer.getCourses());
+        model.addAttribute(LIST_COURSES, trainer.getCourses());
         return "course-views/trainer-courses";
     }
 
     @GetMapping("/trainer")
     public String coursesByTrainerId(Model model, Long trainerId) {
         Trainer trainer = trainerService.findTrainerById(trainerId);
-        model.addAttribute("listCourses", trainer.getCourses());
+        model.addAttribute(LIST_COURSES, trainer.getCourses());
         return "course-views/trainer-courses";
     }
 }

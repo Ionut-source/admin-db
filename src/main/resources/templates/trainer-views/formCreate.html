@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="template"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Trainer</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-6 offset-3 mt-3">
+        <form class="form-control" method="post" th:action="@{/trainers/save}" >
+            <div class="mb-3 mt-3">
+                <label for="firstName" class="form-label">Trainer First Name:</label>
+                <input id="firstName" type="text" name="firstName" class="form-control"
+                       th:field="${trainer.firstName}" required>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="lastName" class="form-label">Trainer Last Name:</label>
+                <input id="lastName" type="text" name="lastName" class="form-control"
+                       th:field="${trainer.lastName}" required>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="summary" class="form-label">Trainer Summary:</label>
+                <input id="summary" type="text" name="summary" class="form-control"
+                       th:field="${trainer.summary}" required>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="email" class="form-label">Email:</label>
+                <input id="email" type="text" name="email" class="form-control"
+                       th:field="${trainer.user.email}" required>
+                <span th:errors="${trainer.user.email}"></span>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="password" class="form-label">Password:</label>
+                <input id="password" type="text" name="password" class="form-control"
+                       th:field="${trainer.user.password}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
