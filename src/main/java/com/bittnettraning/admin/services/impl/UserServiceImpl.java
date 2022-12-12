@@ -6,6 +6,7 @@ import com.bittnettraning.admin.repositories.RoleRepository;
 import com.bittnettraning.admin.repositories.UserRepository;
 import com.bittnettraning.admin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -27,7 +30,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(String email, String password) {
-        return userRepository.save(new User(email, password));
+        User user = findUserByEmail(email);
+        if (user != null) throw new RuntimeException("User with email :" + email + "already exist");
+        String encodedPassword = passwordEncoder.encode(password);
+        return userRepository.save(new User(email, encodedPassword));
     }
 
     @Override
