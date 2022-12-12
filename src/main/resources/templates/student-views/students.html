@@ -29,6 +29,12 @@
             <td th:text="${student.getFirstName()}"></td>
             <td th:text="${student.getLastName()}"></td>
             <td th:text="${student.getLevel()}"></td>
+            <td>
+              <a onclick="return confirm('Are you sure?')" class="btn btn-danger"
+                 th:href="@{/students/delete(studentId=${student.getStudentId()}, keyword=${keyword})}">
+                Delete
+              </a>
+            </td>
           </tr>
           </tbody>
         </table>

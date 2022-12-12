@@ -36,32 +36,37 @@ public class TrainerController {
         model.addAttribute(KEYWORD, keyword);
         return "trainer-views/trainers";
     }
+
     @GetMapping("/delete")
-    public String deleteTrainer(Long trainerId, String keyword){
+    public String deleteTrainer(Long trainerId, String keyword) {
         trainerService.removeTrainer(trainerId);
         return "redirect:/trainers/index?keyword=" + keyword;
     }
+
     @GetMapping("/formUpdate")
-    public String updateTrainer(Model model, Long trainerId){
+    public String updateTrainer(Model model, Long trainerId) {
         Trainer trainer = trainerService.findTrainerById(trainerId);
         model.addAttribute("trainer", trainer);
         return "trainer-views/formUpdate";
     }
+
     @PostMapping("/update")
-    public String update(Trainer trainer){
+    public String update(Trainer trainer) {
         trainerService.updateTrainer(trainer);
         return "redirect:/trainers/index";
     }
+
     @GetMapping("/formCreate")
-    public String formTrainers(Model model){
+    public String formTrainers(Model model) {
         model.addAttribute("trainer", new Trainer());
         return "trainer-views/formCreate";
     }
+
     @PostMapping("/save")
-    public String save(@Valid Trainer trainer, BindingResult bindingResult){
+    public String save(@Valid Trainer trainer, BindingResult bindingResult) {
         User user = userService.findUserByEmail(trainer.getUser().getEmail());
-        if (user!=null) bindingResult.rejectValue
-                ("user.email",null, "There is already an account register with that email!");
+        if (user != null) bindingResult.rejectValue
+                ("user.email", null, "There is already an account registered with this email!");
         if (bindingResult.hasErrors()) return "trainer-views/formCreate";
         trainerService.createTrainer(trainer.getFirstName(), trainer.getLastName(), trainer.getSummary(),
                 trainer.getUser().getEmail(), trainer.getUser().getPassword());
