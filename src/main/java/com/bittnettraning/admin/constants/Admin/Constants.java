@@ -7,4 +7,6 @@ public final class Constants {
     public static final String LIST_TRAINERS = "listTrainers";
     public static final String LIST_STUDENTS = "listStudents";
     public static final String KEYWORD = "keyword";
+    public static final String TRAINER = "trainer";
+    public static final String CURRENT_TRAINER = "currentTrainer";
 }

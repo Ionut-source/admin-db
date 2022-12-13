@@ -9,4 +9,6 @@ public interface UserService {
     User createUser(String email, String password);
 
     void assignRoleToUser(String email, String roleName);
+
+    boolean doesCurrentUserHasRole(String roleName);
 }

@@ -4,7 +4,9 @@ import com.bittnettraning.admin.entities.Course;
 import com.bittnettraning.admin.entities.Trainer;
 import com.bittnettraning.admin.services.CourseService;
 import com.bittnettraning.admin.services.TrainerService;
+import com.bittnettraning.admin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +30,11 @@ public class CourseController {
     @Autowired
     private TrainerService trainerService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/index")
+    @PreAuthorize("hasAuthority('Admin')")
     public String courses(Model model, @RequestParam(name = KEYWORD, defaultValue = "") String keyword) {
         List<Course> courses = courseService.findCoursesByCourseName(keyword);
         model.addAttribute(LIST_COURSES, courses);
@@ -36,13 +43,19 @@ public class CourseController {
     }
 
     @GetMapping("/delete")
+    @PreAuthorize("hasAuthority('Admin')")
     public String deleteCourse(Long courseId, String keyword) {
         courseService.removeCourse(courseId);
         return "redirect:/courses/index?keyword=" + keyword;
     }
 
     @GetMapping("/formUpdate")
-    public String updateCourse(Model model, long courseId) {
+    @PreAuthorize("hasAnyAuthority('Admin','Trainer')")
+    public String updateCourse(Model model, Long courseId, Principal principal) {
+        if (userService.doesCurrentUserHasRole(TRAINER)) {
+            Trainer trainer = trainerService.findTrainerByEmail(principal.getName());
+            model.addAttribute(CURRENT_TRAINER, trainer);
+        }
         Course course = courseService.findCourseById(courseId);
         List<Trainer> trainers = trainerService.getTrainers();
         model.addAttribute(COURSE, course);

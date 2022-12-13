@@ -6,6 +6,7 @@ import com.bittnettraning.admin.repositories.RoleRepository;
 import com.bittnettraning.admin.repositories.UserRepository;
 import com.bittnettraning.admin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,10 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName(roleName);
         user.assignRoleToUser(role);
 
+    }
+    @Override
+    public boolean doesCurrentUserHasRole(String roleName) {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+                .stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(roleName));
     }
 }
