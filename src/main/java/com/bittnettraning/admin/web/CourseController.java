@@ -2,6 +2,7 @@ package com.bittnettraning.admin.web;
 
 import com.bittnettraning.admin.entities.Course;
 import com.bittnettraning.admin.entities.Trainer;
+import com.bittnettraning.admin.entities.User;
 import com.bittnettraning.admin.services.CourseService;
 import com.bittnettraning.admin.services.TrainerService;
 import com.bittnettraning.admin.services.UserService;
@@ -18,7 +19,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bittnettraning.admin.constants.Admin.Constants.*;
+import static com.bittnettraning.admin.constants.Constants.*;
 
 @Controller
 @RequestMapping("/courses")
@@ -64,7 +65,12 @@ public class CourseController {
     }
 
     @GetMapping("/formCreate")
-    public String formCourses(Model model) {
+    @PreAuthorize("hasAnyAuthority('Admin','Trainer')")
+    public String formCourses(Model model, Principal principal) {
+        if (userService.doesCurrentUserHasRole(TRAINER)) {
+            Trainer trainer = trainerService.findTrainerByEmail(principal.getName());
+            model.addAttribute(CURRENT_TRAINER, trainer);
+        }
         List<Trainer> trainers = trainerService.getTrainers();
         model.addAttribute(LIST_TRAINERS, trainers);
         model.addAttribute(COURSE, new Course());
@@ -72,41 +78,52 @@ public class CourseController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('Admin','Trainer')")
     public String save(Course course) {
         courseService.createOrUpdateCourse(course);
-        return "redirect:/courses/index";
+        return userService.doesCurrentUserHasRole(TRAINER) ? "redirect:/courses/index/trainer" : "redirect:/courses/index";
     }
 
     @GetMapping("/index/student")
-    public String coursesForCurrentStudent(Model model) {
-        Long studentId = 1L;
-        List<Course> subscribedCourses = courseService.getCoursesForStudent(studentId);
+    @PreAuthorize("hasAuthority('Student')")
+    public String coursesForCurrentStudent(Model model, Principal principal) {
+        User user = userService.findUserByEmail(principal.getName());
+        List<Course> subscribedCourses = courseService.getCoursesForStudent(user.getStudent().getStudentId());
         List<Course> otherCourses = courseService.getAllCourses().stream().filter(course ->
                 !subscribedCourses.contains(course)).collect(Collectors.toList());
         model.addAttribute(LIST_COURSES, subscribedCourses);
         model.addAttribute(OTHER_COURSES, otherCourses);
+        model.addAttribute(FIRST_NAME, user.getStudent().getFirstName());
+        model.addAttribute(LAST_NAME, user.getStudent().getLastName());
         return "course-views/student-courses";
     }
 
     @GetMapping("/enrollStudent")
-    public String enrollCurrentStudentInCourse(Long courseId) {
-        Long studentId = 1L;
-        courseService.assignStudentToCourse(courseId, studentId);
+    @PreAuthorize("hasAuthority('Student')")
+    public String enrollCurrentStudentInCourse(Long courseId, Principal principal) {
+        User user = userService.findUserByEmail(principal.getName());
+        courseService.assignStudentToCourse(courseId, user.getStudent().getStudentId());
         return "redirect:/courses/index/student";
     }
 
     @GetMapping("/index/trainer")
-    public String coursesForCurrentTrainer(Model model) {
-        Long trainerId = 1L;
-        Trainer trainer = trainerService.findTrainerById(trainerId);
+    @PreAuthorize("hasAuthority('Trainer')")
+    public String coursesForCurrentTrainer(Model model, Principal principal) {
+        User user = userService.findUserByEmail(principal.getName());
+        Trainer trainer = trainerService.findTrainerById(user.getTrainer().getTrainerId());
         model.addAttribute(LIST_COURSES, trainer.getCourses());
+        model.addAttribute(FIRST_NAME, trainer.getFirstName());
+        model.addAttribute(LAST_NAME, trainer.getLastName());
         return "course-views/trainer-courses";
     }
 
     @GetMapping("/trainer")
+    @PreAuthorize("hasAuthority('Trainer')")
     public String coursesByTrainerId(Model model, Long trainerId) {
         Trainer trainer = trainerService.findTrainerById(trainerId);
         model.addAttribute(LIST_COURSES, trainer.getCourses());
+        model.addAttribute(FIRST_NAME, trainer.getFirstName());
+        model.addAttribute(LAST_NAME, trainer.getLastName());
         return "course-views/trainer-courses";
     }
 }

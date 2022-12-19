@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="template"
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="template"
       xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -26,10 +27,18 @@
             </div>
             <div class="mb-3 mt-3">
                 <label class="form-label">Trainer:</label>
-                <select th:field="${course.trainer}" name="trainer" class="form-select">
+                <select sec:authorize="hasAuthority('Admin')" th:field="${course.trainer}" name="trainer"
+                        class="form-select">
                     <option th:each="trainer:${listTrainers}"
                             th:text="${trainer.getFirstName()}+' '+${trainer.getLastName()}"
                             th:value="${trainer.getTrainerId()}"></option>
+                </select>
+                <select sec:authorize="!hasAuthority('Admin') && hasAuthority('Trainer')"
+                        th:field="${course.trainer}" name="trainer"
+                        class="form-select">
+                    <option selected
+                            th:text="${currentTrainer.getFirstName()}+' '+${currentTrainer.getLastName()}"
+                            th:value="${currentTrainer.getTrainerId()}"></option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>

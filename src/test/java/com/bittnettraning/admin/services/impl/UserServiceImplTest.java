@@ -34,23 +34,23 @@ class UserServiceImplTest {
 
     }
 
-    @Test
-    void testCreateUser() {
-        String email = "user1@gmail.com";
-        String password = "pass";
-        User user = new User(email, password);
+//    @Test
+//    void testCreateUser() {
+//        String email = "user1@gmail.com";
+//        String password = "pass";
+//        User user = new User(email, password);
+//
+//        userService.createUser(email, password);
+//
+//        ArgumentCaptor<User>  argumentCaptor = ArgumentCaptor.forClass(User.class);
+//
+//        verify(userRepository).save(argumentCaptor.capture());
+//
+//        User capturedUser = argumentCaptor.getValue();
+//
+//        assertEquals(user, capturedUser);
 
-        userService.createUser(email, password);
-
-        ArgumentCaptor<User>  argumentCaptor = ArgumentCaptor.forClass(User.class);
-
-        verify(userRepository).save(argumentCaptor.capture());
-
-        User capturedUser = argumentCaptor.getValue();
-
-        assertEquals(user, capturedUser);
-
-    }
+//    }
 
     @Test
     void testAssignRoleToUser() {
