@@ -16,6 +16,7 @@ public class Course {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "course_id", nullable = false)
     private Long courseId;
+
     @Basic
     @Column(name = "course_name", nullable = false, length = 45)
     private String courseName;

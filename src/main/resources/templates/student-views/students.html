@@ -11,9 +11,10 @@
     <div class="card-header">List of Students</div>
     <div class="card-body">
       <form method="get" th:action="@{index}">
-        <label>keyword</label>
+        <label>Keyword</label>
         <input type="text" name="keyword" th:value="${keyword}">
         <button type="submit" class="btn btn-primary">Search</button>
+      </form>
         <table class="table mt-3">
           <thead>
           <tr class="text-center">
@@ -38,7 +39,6 @@
           </tr>
           </tbody>
         </table>
-      </form>
     </div>
   </div>
 </div>

@@ -59,12 +59,12 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public Trainer removeTrainer(Long trainerId) {
+    public void removeTrainer(Long trainerId) {
         Trainer trainer = findTrainerById(trainerId);
         for (Course course : trainer.getCourses()) {
             courseService.removeCourse(course.getCourseId());
         }
         trainerRepository.deleteById(trainerId);
-        return trainer;
+
     }
 }

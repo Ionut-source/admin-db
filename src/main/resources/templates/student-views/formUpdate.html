@@ -21,11 +21,13 @@
         </div>
         <div class="mb-3 mt-3">
             <label for="lastName" class="form-label">Last Name:</label>
-            <input id="lastName" type="text" name="lastName" class="form-control" th:value="${student.getLastName()}">
+            <input id="lastName" type="text" name="lastName" class="form-control"
+                   th:value="${student.getLastName()}">
         </div>
         <div class="mb-3 mt-3">
             <label for="level" class="form-label">Level:</label>
-            <input id="level" type="text" name="level" class="form-control" th:value="${student.getLevel()}">
+            <input id="level" type="text" name="level" class="form-control"
+                   th:value="${student.getLevel()}">
         </div>
         <div class="mb-3 mt-3" th:each="course:${student.getCourses()}">
             <input hidden name="courses" class="form-control"
@@ -34,6 +36,7 @@
         <div class="mb-3 mt-3" hidden>
             <input name="user" class="form-control" th:field="${student.user}">
         </div>
+
       <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>

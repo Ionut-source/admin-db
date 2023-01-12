@@ -30,6 +30,7 @@ public class MyRunner implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
+
         User user1 = userService.createUser("user1@gmail.com", "1234");
         User user2 = userService.createUser("user2@yahoo.com", "2345");
 

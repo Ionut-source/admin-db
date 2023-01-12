@@ -1,8 +1,10 @@
 package com.bittnettraning.admin.services.impl;
 
 import com.bittnettraning.admin.entities.Course;
+import com.bittnettraning.admin.entities.Student;
 import com.bittnettraning.admin.entities.Trainer;
 import com.bittnettraning.admin.repositories.CourseRepository;
+import com.bittnettraning.admin.repositories.StudentRepository;
 import com.bittnettraning.admin.repositories.TrainerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +28,8 @@ class CourseServiceImplTest {
     private TrainerRepository trainerRepository;
     @Mock
     private CourseRepository courseRepository;
+    @Mock
+    private StudentRepository studentRepository;
     @InjectMocks
     private CourseServiceImpl courseService;
 
@@ -79,21 +83,39 @@ class CourseServiceImplTest {
     void findCoursesByCourseName() {
         String courseName = "JPA";
         courseService.findCoursesByCourseName(courseName);
+
+        verify(courseRepository).findCoursesByCourseNameContains(courseName);
     }
 
     @Test
     void assignStudentToCourse() {
+        Student student = new Student();
+        student.setStudentId(2L);
+        Course course = new Course();
+        course.setCourseId(1L);
+
+        when(studentRepository.findById(any())).thenReturn(Optional.of(student));
+        when(courseRepository.findById(any())).thenReturn(Optional.of(course));
+
+        courseService.assignStudentToCourse(1L, 1L);
     }
 
     @Test
     void getAllCourses() {
+        courseService.getAllCourses();
+        verify(courseRepository).findAll();
     }
 
     @Test
     void getCoursesForStudent() {
+        courseService.getCoursesForStudent(1L);
+        verify(courseRepository).getCoursesByStudentId(1L);
+
     }
 
     @Test
     void removeCourse() {
+        courseService.removeCourse(1L);
+        verify(courseRepository).deleteById(1L);
     }
 }

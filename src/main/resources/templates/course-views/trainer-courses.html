@@ -8,6 +8,7 @@
 <body>
 <div layout:fragment="content1">
     <div class="container mt-3">
+        <div class="card">
         <div class="card-header">
             Hello, <span class="text-success" th:text="${firstName}+' '+${lastName}"></span>, these are your courses :
         </div>
@@ -39,9 +40,11 @@
                     </td>
                 </tr>
                 </tbody>
+
             </table>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

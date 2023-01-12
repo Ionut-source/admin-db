@@ -40,4 +40,10 @@ class StudentRepositoryTest extends AbstractTest {
 
         assertEquals(expectedStudent, student);
     }
+
+    @Test
+    void testFindStudentByNotExistingEmail() {
+        Student student = studentRepository.findStudentByEmail("student@gmail.com");
+        assertNull(student);
+    }
 }

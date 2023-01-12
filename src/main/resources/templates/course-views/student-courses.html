@@ -9,7 +9,9 @@
 <div layout:fragment="content1">
     <div class="container mt-3">
         <div class="card">
-            <div class="card-header"> Hello, <span class="text-success" th:text="${firstName}+' '+${lastName}"></span>, these are your current subscriptions :</div>
+            <div class="card-header"> Hello, <span th:text="${firstName}+' '+${lastName}"></span>, these are your
+                current subscriptions :
+            </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -30,11 +32,14 @@
                         <td th:text="${course.getTrainer().getFirstName()}+' '+${course.getTrainer().getLastName()}"></td>
                     </tr>
                     </tbody>
+
                 </table>
             </div>
         </div>
         <div class="card mt-3">
-            <div class="card-header">Enroll in new courses :</div>
+            <div class="card-header">
+                Enroll in new courses :
+            </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -61,9 +66,11 @@
                         </td>
                     </tr>
                     </tbody>
+
                 </table>
             </div>
         </div>
+
     </div>
 </div>
 </body>
