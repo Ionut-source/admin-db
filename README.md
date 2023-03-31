@@ -14,8 +14,8 @@ All these interfaces extend JpaRepository which allows us to use all its methods
 
 3. Service & Service implementation
 
-4. Security
-I added formLogin() to force the user to authenticate
+4. Security                                                                                                            
+I added formLogin() to force the user to authenticate                                                                                  
 I also added forbidden access with the path "/403"
 
 5. Web (Controller)
@@ -27,11 +27,10 @@ And also antMatchers was replaced with requestMather.
 The runner class is a class that implements CommandLineRunner.
 This class contains the logic that helps us insert some initial data into our application.
 
-Unit Tests
-For the MVC application, I used UnitTests for all serviceimpl functionalities.                                                        
+Unit Tests                                                                                                     
+I used UnitTests for all serviceimpl functionalities.                                                        
                         
-Using JUnit and Mokito we can test all methods.
-Integration Tests                                                                                                   
+Integration Tests                                                                                            
 I created the repositories package and tested all its interfaces using @DataJpaTest and Test Containers (MySqlContainer)                                
                         • CourseRepositoryTest
                         • TrainerRepositoryTest
