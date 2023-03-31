@@ -1,7 +1,7 @@
 # admin-db
 ![Untitled](https://user-images.githubusercontent.com/76654263/229068424-7a15dbc0-8b1f-47d7-80a8-8fbe44d24ee4.jpg)
 
-## The project is structured on several layers, as follows:
+### The project is structured on several layers, as follows:
 1. Entity:  •Course  •Trainer  •Role   •Student   •Customer                                                                         
 
     In each class of the entity package, we added ORM annotations for the mapping between classes and database tables and properties.
